@@ -10,7 +10,7 @@ import { compare, hash } from "../../script";
 export const router = Router();
 router.post('/signup',async (req,res)=>{
     console.log(req.body)
-    const parsedata = SignupSchema.safeParse(req.body);
+    const parsedata = await SignupSchema.safeParse(req.body);
     if(!parsedata.success){
         console.log(parsedata.error.format());
          res.status(400).json({
@@ -19,6 +19,7 @@ router.post('/signup',async (req,res)=>{
         return
     }
     const hashedpassword = await hash(parsedata.data.password)
+    console.log(hashedpassword);
 
     try { 
         const user = await prisma.User.create({
