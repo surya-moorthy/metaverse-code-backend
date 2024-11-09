@@ -22,7 +22,7 @@ router.post('/signup',async (req,res)=>{
     console.log(hashedpassword);
 
     try { 
-        const user = await prisma.User.create({
+        const user = await prisma.user.create({
             data: {
                username : parsedata.data.username,
                password : hashedpassword,
@@ -33,6 +33,7 @@ router.post('/signup',async (req,res)=>{
          res.status(200).json({
              userId : user.id
         })
+        console.log(user)
         return 
 
     }catch(e:any){
@@ -49,11 +50,6 @@ router.post('/signin',async (req,res)=>{
         console.log(parsedData.error.format()); 
         res.status(400).json({message: "Signin failed"})
         return
-    }
-    if(parsedData.success){
-        res.json({
-            msg : " zod success"
-        })
     }
     try {
         const user = await prisma.user.findUnique({
@@ -75,7 +71,7 @@ router.post('/signin',async (req,res)=>{
             userid : user.id,
             role : user.role
         },JWT_PASSWORD)                     
-        res.json({
+        res.status(200).json({
            token : token
         })
 

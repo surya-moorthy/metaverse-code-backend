@@ -33,6 +33,10 @@ export const CreateElementSchema = z.object({
     static : z.boolean()
 })
 
+export const DeleteSchema = z.object({
+    id : z.string()
+})
+
 export const UpdateElementSchema = z.object({
     imageUrl : z.string()
 })
@@ -52,3 +56,12 @@ export const CreateMapSchema = z.object({
     y : z.number()
    }))
 })
+
+declare global {
+    namespace Express {
+      export interface Request {
+        role?: "Admin" | "User";
+        userId?: string;
+      }
+    }
+}
